@@ -1,0 +1,70 @@
+<html>
+    <head>
+        <title>TN</title>
+        {% load static %}
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="HandheldFriendly" content="true">
+        <link rel = "stylesheet" type = "text/css" href = "{% static 'election/bootstrap.css' %}">
+        <link rel = "stylesheet" type = "text/css" href = "{% static 'election/local.css' %}">
+    </head>
+    <body>
+            <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-lg sticky-top">
+                    <a class="navbar-brand" href="#">Election Analysis</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                      <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                      <ul class="navbar-nav">
+                        <li class="nav-item active">
+                          <a class="nav-link" href="{% url 'Home' %}">Home</a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="{% url 'TamilNadu' %}">Tamil Nadu</a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="{% url 'AndhraPradesh' %}">Andhra Pradesh</a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="{% url 'Karnataka' %}">Karnataka</a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="{% url 'Kerala' %}">Kerala</a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="{% url 'Candidates' %}">Candidate-wise</a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="{% url 'Independent' %}">Independent Candidates</a>
+                        </li>
+                      </ul>
+                    </div>
+                  </nav>
+        <br><br><br><br>
+        <div class="container">
+            <div class = "row">
+                <div class = "col">
+                    <h1 class = "display-1">Statistics for Tamil Nadu are as follows:</h1><br>
+                    <h2>Constituency-wise:</h2><br><br>
+                    <div class = "card shadow-lg">
+                    {{ final.to_html|safe }}
+                    </div>
+                    <br><br>
+                </div>
+            </div>
+        </div>
+        <br><br>
+        <div>
+                <h2>Party-wise:</h2><br><br>
+                {{ df.to_html|safe }}<br><br>
+        </div>
+        <div class = "container">
+            <div class = "row">
+                <div class = "column">
+                    <h2>The above tabulation can be represented as a heatmap, as given below:</h2>
+                    <img src = "{% static 'election/TamilNadu.png' %}"/>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
