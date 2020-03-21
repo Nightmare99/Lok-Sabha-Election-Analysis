@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>Candidate-wise Analysis</title>
+        <title>Women Candidates</title>
         {% load static %}
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -47,16 +47,16 @@
         <div class="container">
             <div class = "row">
                 <div class = "col">
-                    <h1 class = "display-1">Candidate-wise Analysis:</h1>
-                    <a href = "#sec2"><h2>Jump to candidates contesting >5 seats in a year...</h2></a><br><br>
-                    <div class = "card shadow-lg">
-                    {{ df.to_html|safe }}
-                    </div>
+                    <h1 class = "display-1">Statistics for Women candidates are as follows:</h1><br>
                     <br><br>
-                    <div class = "card shadow-lg" id = "sec2">
-                            <h2>Candidates contesting in more than 5 seats in a year:</h2><br><br>
-                            {{ df2.to_html|safe }}<br><br>
-                    </div>
+                    {% for state,data in women.items %}
+                        <h2>{{ state }}</h2>
+                        <div class = "card shadow-lg">
+                            {{ data.to_html|safe }}
+                        </div>
+                        <br><br>
+                    {% endfor %}
+                    <br><br>
                 </div>
             </div>
         </div>

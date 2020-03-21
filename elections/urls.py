@@ -25,4 +25,5 @@ urlpatterns = [
     path('Karnataka/', Karnataka, name='Karnataka'),
     path('Independent/', Independent, name='Independent'),
     path('CandidateAnalysis/', CandidateWise, name='Candidates'),
+    path('Women/', Women, name='Women'),
 ]

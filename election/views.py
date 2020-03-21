@@ -3,6 +3,8 @@ import pandas as pd
 from django.http import HttpResponse
 import matplotlib.pyplot as plt
 from matplotlib import colors
+import matplotlib
+matplotlib.use('Agg')
 import numpy as np
 import seaborn as sns
 from pprint import pprint
@@ -222,6 +224,7 @@ def TamilNadu(request):
     fig.set_size_inches(8, 10)
     fig.savefig('election/static/election/TamilNadu.png')
     #context["fig"] = fig
+    fig.close()
     return render(request, 'election/TamilNadu.html', context)
 
 def AndhraPradesh(request):
@@ -1038,3 +1041,118 @@ def CandidateWise(request):
     #display(df)
     context["df2"] = df2
     return render(request, "election/Candidates.html", context)
+
+# Melon's part starts here
+
+def f1(state,year,df):
+    
+    t1 = df.loc[df["TERRITORY"] == state]
+    const = list(t1["CONSTITUENCY"].unique())
+    
+    won = 0
+    tv = 0
+    tvw = 0
+    total_c = 0
+    tp = 0
+    
+    for i in const:
+        
+        tc = df.loc[df["CONSTITUENCY"] == i]
+        ti = list(tc.index)
+        tv += tc["TOTAL VALID VOTES"][ti[0]]
+        tf = tc.loc[tc["SEX"] == 'F']
+        
+        if tf.shape[0] !=0:
+            total_c += 1
+
+        for j in list(tf.index):
+            
+            if tf["No."][j] == 1:
+                won+=1
+            
+            tvw += tf["VOTES"][j]
+            tp += 1
+    
+    if(tv == 0):
+        perc = 0
+    else:
+        perc = round(tvw/tv,2)*100
+    temp = pd.DataFrame(data = [[year,won,total_c,tp,perc]] ,columns = ['year','won','contested','total_participation','% of votes'])
+    return temp
+
+def f2(state,year,df):
+    
+    t1 = df.loc[df["TERRITORY"] == state]
+    const = list(t1["CONSTITUENCY"].unique())
+    
+    won = 0
+    tv = 0
+    tvw = 0
+    total_c = 0
+    tp = 0
+    
+    for i in const:
+        
+        tc = df.loc[df["CONSTITUENCY"] == i]
+        ti = list(tc.index)
+        tv += tc["TOTAL VOTES POLLED"][ti[0]]
+        tf = tc.loc[tc["SEX"] == 'F']
+        
+        
+        if tf.shape[0] !=0:
+            total_c += 1
+
+        for j in list(tf.index):
+            
+            if tf["No"][j] == 1:
+                won+=1
+            
+            tvw += tf["TOTAL VOTES RECEIVED"][j]
+            tp += 1
+    
+    if(tv == 0):
+        perc = 0
+    else:
+        perc = round(tvw/tv,2)*100
+    temp = pd.DataFrame(data = [[year,won,total_c,tp,perc]] ,columns = ['year','won','contested','total_participation','% of votes'])
+    return temp
+
+def func(state):
+    
+    df_1989 = pd.read_csv("1989.csv")
+    df_1991 = pd.read_csv("1991.csv")
+    df_1996 = pd.read_csv("1996.csv")
+    df_1998 = pd.read_csv("1998.csv")
+    df_1999 = pd.read_csv("1999.csv")
+    df_2004 = pd.read_csv("2004.csv")
+    df_2009 = pd.read_csv("2009.csv")
+    df_2014 = pd.read_csv("2014.csv")
+
+    temp = pd.DataFrame(columns = ['year','won','contested','total_participation','% of votes'])
+    
+    t1 = f1(state,1989,df_1989)
+    t2 = f1(state,1991,df_1991)
+    t3 = f1(state,1996,df_1996)
+    t4 = f1(state,1998,df_1998)
+    t5 = f1(state,1999,df_1999)
+    t6 = f2(state,2004,df_2004)
+    
+    temp = temp.append(t1, ignore_index=True)
+    temp = temp.append(t2, ignore_index=True)
+    temp = temp.append(t3, ignore_index=True)
+    temp = temp.append(t4, ignore_index=True)
+    temp = temp.append(t5, ignore_index=True)
+    temp = temp.append(t6, ignore_index=True)
+    
+    return temp
+
+def Women(request):
+    context = dict()
+    df_1989 = pd.read_csv("1989.csv")
+    states = list(df_1989["TERRITORY"].unique())
+    l = dict()
+    for i in states:
+        temp = func(i)
+        l[i] = temp
+    context['women'] = l
+    return render(request, "election/Women.html", context)
