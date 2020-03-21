@@ -11,6 +11,7 @@ from pprint import pprint
 from tabulate import tabulate
 from hdfs import InsecureClient
 import os.path
+import collections
 
 def Home(request):
     client = InsecureClient('http://localhost:50070', user='hduser')
@@ -1156,3 +1157,168 @@ def Women(request):
         l[i] = temp
     context['women'] = l
     return render(request, "election/Women.html", context)
+
+class c:
+    
+    name = ''
+    margin = 0
+    
+    def __init__(self,name,margin):
+        self.name = name
+        self.margin = margin
+
+def print_dict(year,d):
+    count = 0
+    df = pd.DataFrame(columns=['constituency', 'votes'])
+
+    for i in d.keys():
+        df = df.append({"constituency" : i, "votes" : d[i]},ignore_index=True)
+        count+=1
+        if(count==5):
+            break
+    return df
+
+def print_max(year,d):
+    l1 = list(d.keys())
+    l1 = l1[-5:][::-1]
+
+    df = pd.DataFrame(columns=['constituency', 'votes'])
+    for i in l1:
+        df = df.append({"constituency" : i, "votes" : d[i]},ignore_index=True)
+    return df
+
+def Misc(request):
+    context = dict()
+    df_1989 = pd.read_csv("1989.csv")
+    df_1991 = pd.read_csv("1991.csv")
+    df_1996 = pd.read_csv("1996.csv")
+    df_1998 = pd.read_csv("1998.csv")
+    df_1999 = pd.read_csv("1999.csv")
+    df_2004 = pd.read_csv("2004.csv")
+    df_2009 = pd.read_csv("2009.csv")
+    df_2014 = pd.read_csv("2014.csv")
+    const = list(df_2004["CONSTITUENCY"].unique())
+    d_1989 = {}
+    d_1991 = {}
+    d_1996 = {}
+    d_1998 = {}
+    d_1999 = {}
+    d_2004 = {}
+    for i in const:
+    
+        t1 = df_1989.loc[df_1989["CONSTITUENCY"] == i]
+        t2 = df_1991.loc[df_1991["CONSTITUENCY"] == i]
+        t3 = df_1996.loc[df_1996["CONSTITUENCY"] == i]
+        t4 = df_1998.loc[df_1998["CONSTITUENCY"] == i]
+        t5 = df_1999.loc[df_1999["CONSTITUENCY"] == i]
+        t6 = df_2004.loc[df_2004["CONSTITUENCY"] == i]
+        
+        if t1.shape[0] != 0:
+            
+            v1 = t1.loc[t1["No."] == 1]
+            if len(list(v1.index)) !=0:
+                v1 = v1["VOTES"][v1.index[0]]
+            else:
+                v1 = 0
+            v2 = t1.loc[t1["No."] == 2]
+            if len(list(v2.index)) !=0:
+                v2 = v2["VOTES"][v2.index[0]]
+            else:
+                v2 = 0
+            d_1989[i] = abs(v1-v2)
+        
+        if t2.shape[0] != 0:
+            
+            v1 = t2.loc[t2["No."] == 1]
+            if len(list(v1.index)) !=0:
+                v1 = v1["VOTES"][v1.index[0]]
+            else:
+                v1 = 0
+            v2 = t2.loc[t2["No."] == 2]
+            if len(list(v2.index)) !=0:
+                v2 = v2["VOTES"][v2.index[0]]
+            else:
+                v2 = 0
+            d_1991[i] = abs(v1-v2)
+        
+        if t3.shape[0] != 0:
+            
+            v1 = t3.loc[t3["No."] == 1]
+            if len(list(v1.index)) !=0:
+                v1 = v1["VOTES"][v1.index[0]]
+            else:
+                v1 = 0
+            v2 = t3.loc[t3["No."] == 2]
+            if len(list(v2.index)) !=0:
+                v2 = v2["VOTES"][v2.index[0]]
+            else:
+                v2 = 0
+            d_1996[i] = abs(v1-v2)
+        
+        if t4.shape[0] != 0:
+            
+            v1 = t4.loc[t4["No."] == 1]
+            if len(list(v1.index)) !=0:
+                v1 = v1["VOTES"][v1.index[0]]
+            else:
+                v1 = 0
+            v2 = t4.loc[t4["No."] == 2]
+            if len(list(v2.index)) !=0:
+                v2 = v2["VOTES"][v2.index[0]]
+            else:
+                v2 = 0
+            d_1998[i] = abs(v1-v2)
+        
+        if t5.shape[0] != 0:
+            
+            v1 = t5.loc[t5["No."] == 1]
+            if len(list(v1.index)) !=0:
+                v1 = v1["VOTES"][v1.index[0]]
+            else:
+                v1 = 0
+            v2 = t5.loc[t5["No."] == 2]
+            if len(list(v2.index)) !=0:
+                v2 = v2["VOTES"][v2.index[0]]
+            else:
+                v2 = 0
+            d_1999[i] = abs(v1-v2)
+            
+        if t6.shape[0] != 0:
+            
+            v1 = t6.loc[t6["No"] == 1]
+            v1 = v1["TOTAL VOTES RECEIVED"][v1.index[0]]
+            v2 = t6.loc[t6["No"] == 2]
+            v2 = v2["TOTAL VOTES RECEIVED"][v2.index[0]]
+            d_2004[i] = abs(v1-v2)
+    final_dict_min = dict()
+    final_dict_max = dict()
+
+    temp = print_dict(1989,d_1989)
+    final_dict_min[1989] = temp
+    temp = print_dict(1991,d_1989)
+    final_dict_min[1991] = temp
+    temp = print_dict(1996,d_1989)
+    final_dict_min[1996] = temp
+    temp = print_dict(1998,d_1989)
+    final_dict_min[1998] = temp
+    temp = print_dict(1999,d_1989)
+    final_dict_min[1999] = temp
+    temp = print_dict(2004,d_1989)
+    final_dict_min[2004] = temp
+
+    temp = print_max(1989,d_1989)
+    final_dict_max[1989] = temp
+    temp = print_max(1991,d_1989)
+    final_dict_max[1991] = temp
+    temp = print_max(1996,d_1989)
+    final_dict_max[1996] = temp
+    temp = print_max(1998,d_1989)
+    final_dict_max[1998] = temp
+    temp = print_max(1999,d_1989)
+    final_dict_max[1999] = temp
+    temp = print_max(2004,d_1989)
+    final_dict_max[2004] = temp
+
+    context['min'] = final_dict_min
+    context['max'] = final_dict_max
+    return render(request, "election/Misc.html", context)

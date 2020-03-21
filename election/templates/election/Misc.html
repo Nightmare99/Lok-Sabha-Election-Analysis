@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>Home</title>
+        <title>Miscellaneous</title>
         {% load static %}
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -38,25 +38,41 @@
                             <a class="nav-link" href="{% url 'Independent' %}">Independent Candidates</a>
                         </li>
                         <li class="nav-item active">
-                          <a class="nav-link" href="{% url 'Women' %}">Women Candidates</a>
-                      </li>
-                      <li class="nav-item active">
-                        <a class="nav-link" href="{% url 'Misc' %}">Miscellaneous</a>
-                    </li>
+                            <a class="nav-link" href="{% url 'Women' %}">Women Candidates</a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="{% url 'Misc' %}">Miscellaneous</a>
+                        </li>
                       </ul>
                     </div>
                   </nav>
         <br><br><br><br>
-        <div class = "container">
-          <div class = "row">
-            <div class = "column">
-              
-                <h2>Analysis of elections in India</h2>
-                <br><br>
-                A project by M. Aravind, Akash Menon, Srinath K.R. and S. Vishal Kumar.
-              
+        <div class="container">
+            <div class = "row">
+                <div class = "col">
+                    <h1 class = "display-1">Miscellaneous statistics:</h1><br>
+                    <br><br>
+                    <h2>Minimum vote differences</h2>
+                    {% for year,data in min.items %}
+                        <h2>{{ year }}</h2>
+                        <div class = "card shadow-lg">
+                            {{ data.to_html|safe }}
+                        </div>
+                        <br><br>
+                    {% endfor %}
+                    <br><br>
+                    <h2>Maximum vote differences</h2>
+                    {% for year,data in max.items %}
+                        <h2>{{ year }}</h2>
+                        <div class = "card shadow-lg">
+                            {{ data.to_html|safe }}
+                        </div>
+                        <br><br>
+                    {% endfor %}
+                    <br><br>
+                </div>
             </div>
-          </div>
         </div>
+        <br><br>
     </body>
 </html>

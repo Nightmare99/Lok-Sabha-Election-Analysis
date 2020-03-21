@@ -26,4 +26,5 @@ urlpatterns = [
     path('Independent/', Independent, name='Independent'),
     path('CandidateAnalysis/', CandidateWise, name='Candidates'),
     path('Women/', Women, name='Women'),
+    path('Misc/', Misc, name='Misc'),
 ]
