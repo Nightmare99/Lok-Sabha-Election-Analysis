@@ -225,7 +225,7 @@ def TamilNadu(request):
     fig.set_size_inches(8, 10)
     fig.savefig('election/static/election/TamilNadu.png')
     #context["fig"] = fig
-    fig.close()
+    #fig.close()
     return render(request, 'election/TamilNadu.html', context)
 
 def AndhraPradesh(request):
