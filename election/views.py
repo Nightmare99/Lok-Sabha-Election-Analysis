@@ -1187,6 +1187,12 @@ def print_max(year,d):
         df = df.append({"constituency" : i, "votes" : d[i]},ignore_index=True)
     return df
 
+
+def sort_dic(x):
+    sorted_x = sorted(x.items(), key=lambda kv: kv[1])
+    sorted_dict = collections.OrderedDict(sorted_x)
+    return sorted_dict
+
 def Misc(request):
     context = dict()
     df_1989 = pd.read_csv("1989.csv")
@@ -1290,6 +1296,13 @@ def Misc(request):
             v2 = t6.loc[t6["No"] == 2]
             v2 = v2["TOTAL VOTES RECEIVED"][v2.index[0]]
             d_2004[i] = abs(v1-v2)
+    d_1989 = sort_dic(d_1989)
+    d_1991 = sort_dic(d_1991)
+    d_1996 = sort_dic(d_1996)
+    d_1998 = sort_dic(d_1998)
+    d_1999 = sort_dic(d_1999)
+    d_2004 = sort_dic(d_2004)
+    
     final_dict_min = dict()
     final_dict_max = dict()
 
