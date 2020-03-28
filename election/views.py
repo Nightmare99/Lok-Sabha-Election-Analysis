@@ -1302,34 +1302,34 @@ def Misc(request):
     d_1998 = sort_dic(d_1998)
     d_1999 = sort_dic(d_1999)
     d_2004 = sort_dic(d_2004)
-    
+
     final_dict_min = dict()
     final_dict_max = dict()
 
     temp = print_dict(1989,d_1989)
     final_dict_min[1989] = temp
-    temp = print_dict(1991,d_1989)
+    temp = print_dict(1991,d_1991)
     final_dict_min[1991] = temp
-    temp = print_dict(1996,d_1989)
+    temp = print_dict(1996,d_1996)
     final_dict_min[1996] = temp
-    temp = print_dict(1998,d_1989)
+    temp = print_dict(1998,d_1998)
     final_dict_min[1998] = temp
-    temp = print_dict(1999,d_1989)
+    temp = print_dict(1999,d_1999)
     final_dict_min[1999] = temp
-    temp = print_dict(2004,d_1989)
+    temp = print_dict(2004,d_2004)
     final_dict_min[2004] = temp
 
     temp = print_max(1989,d_1989)
     final_dict_max[1989] = temp
-    temp = print_max(1991,d_1989)
+    temp = print_max(1991,d_1991)
     final_dict_max[1991] = temp
-    temp = print_max(1996,d_1989)
+    temp = print_max(1996,d_1996)
     final_dict_max[1996] = temp
-    temp = print_max(1998,d_1989)
+    temp = print_max(1998,d_1998)
     final_dict_max[1998] = temp
-    temp = print_max(1999,d_1989)
+    temp = print_max(1999,d_1999)
     final_dict_max[1999] = temp
-    temp = print_max(2004,d_1989)
+    temp = print_max(2004,d_2004)
     final_dict_max[2004] = temp
 
     context['min'] = final_dict_min
